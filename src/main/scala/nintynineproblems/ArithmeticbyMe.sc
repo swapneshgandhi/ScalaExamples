@@ -25,6 +25,22 @@ object S99Int {
     })
 }
 
+class S99Int(start: Int) {
+  val primes = Stream.cons(2, Stream.from(3, 2).filter(_ => isPrime))
+
+  def isPrime: Boolean =
+    (start > 1) && (primes takeWhile {
+      _ <= Math.sqrt(start)
+    } forall {
+      start % _ != 0
+    })
+
+  def listPrimeRange(r: Range) = {
+    primes dropWhile (_ < r.start) takeWhile (_ > r.end) toList
+  }
+
+}
+
 // Readers interested in more sophisticated (and more efficient) primality tests
 // are invited to read http://primes.utm.edu/prove/index.html .  Implementation
 // in Scala is left as an exercise for the reader.
@@ -113,3 +129,40 @@ def primeFactorMy(num: Int): List[Int] = {
 //sorted with length of factors generated from encode
 encode(primeFactorMy(20)) map (_.swap) sortWith ((e1, e2) => (e1._2 < e2._2))
 
+def listPrimeRange(r: Range) = {
+  primeObj.primes dropWhile (_ < r.start) takeWhile (_ > r.end)
+}
+
+val obj = new S99Int(23)
+//obj.primes toList
+
+obj.listPrimeRange(1 to 15)
+
+//these prime traversal do not work, but useful to go through them for
+//looking at how to do it in Scala
+
+//very good use of Some/None
+def goldbach(start: Int): (Int, Int) =
+  primeObj.primes takeWhile {
+    _ < start
+  } find { p => new S99Int(start - p).isPrime } match {
+    case None => throw new IllegalArgumentException
+    case Some(p1) => (p1, start - p1)
+  }
+
+goldbach(28)
+
+def printGoldbachListLimited(r: Range, limit: Int) {
+  (r filter { n => n > 2 && n % 2 == 0 } map { n => (n, goldbach(n)) }
+    filter {
+    _._2._1 >= limit
+  })
+  for ((k, (v1, v2)) <- _) {
+    println(k + ", " + v1 + v2)
+  }
+
+  def printPair(n: Int, p1: Int, p2: Int) {
+    println(n + ", " + p1 + " " + p2)
+  }
+
+}
