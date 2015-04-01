@@ -1,3 +1,5 @@
+package scalaadvance
+
 object Mnemonics {
 
   type ??? = Nothing

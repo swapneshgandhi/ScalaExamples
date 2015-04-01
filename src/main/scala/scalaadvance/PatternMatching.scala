@@ -1,4 +1,4 @@
-package nintynineproblems
+package scalaadvance
 
 /**
  * Created by swaps_000 on 3/30/2015.
