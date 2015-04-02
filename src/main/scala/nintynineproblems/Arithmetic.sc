@@ -73,6 +73,8 @@ class S99Int(val start: Int) {
       case None => throw new IllegalArgumentException
       case Some(p1) => (p1, start - p1)
     }
+
+
 }
 
 object S99Int {
@@ -112,3 +114,4 @@ object S99Int {
 }
 
 }
+
